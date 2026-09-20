@@ -1,108 +1,71 @@
 public class Main {
+    Hero player1;
+    Hero player2;
 
     void main() {
 
-        Hero player1 = new Hero("john", "Assassin");
-        Hero player2 = new Hero("Bob", "Warrior");
-        System.out.println("PLAYER 1");
-        System.out.println("=== CHARACTER SHEET ===");
-        System.out.println("Name: " + player1.name);
-        switch (player1.heroClass) {
-            case "Assassin":
-                System.out.println("Class: " + "A" + " " + "(Assassin)");
-                break;
-            case "Warrior":
-                System.out.println("Class: " + "W" + " " + "(Warrior)");
-                break;
-            default:
-                System.out.println("Hero Class not Available");
-
-        }
-        System.out.println("Level " + player1.level);
-        System.out.println("Health " + player1.healthPoints + "/" + player1.maxHealth);
-        System.out.println("XP: " + player1.xp);
-        if (player1.xp > player1.level * 100) {
-            System.out.println("Ready to level up!");
-        }
-        System.out.println("Gold: " + player1.gold);
-
-        if (player1.isAlive) {
-            System.out.println("Alive");
-        } else {
-            System.out.println("Dead");
-        }
-        if (player1.healthPoints < player1.maxHealth * 0.25) {
-            System.out.println("HEALTH CRITICAL!");
-        }
-        System.out.println(" ");
-        System.out.println("INVENTORY");
-        for (String item : player1.inventory) {
-            if (item == null) {
-                System.out.println("-<Empty>");
-                continue;
-            }
-            System.out.println("-" + item);
-        }
-
-
+        player1 = new Hero("john", "Assassin");
+        player2 = new Hero("Bob", "Warrior");
+        printCharacterSheet(player1, 1);
         System.out.println(" ");
         System.out.println(" ");
-
-        System.out.println("PLAYER 2");
-        System.out.println("=== CHARACTER SHEET ===");
-        System.out.println("Name: " + player2.name);
-        switch (player2.heroClass) {
-            case "Assassin":
-                System.out.println("Class: " + "A" + " " + "(Assassin)");
-                break;
-            case "Warrior":
-                System.out.println("Class: " + "W" + " " + "(Warrior)");
-                break;
-            default:
-                System.out.println("Hero Class not Available");
-        }
-        System.out.println("Level " + player2.level);
-        System.out.println("Health " + player2.healthPoints + "/" + player1.maxHealth);
-        System.out.println("XP: " + player2.xp);
-        if (player2.xp > player2.level * 100) {
-            System.out.println("Ready to level up!");
-        }
-        System.out.println("Gold: " + player2.gold);
-        if (player2.isAlive) {
-            System.out.println("Alive");
-        } else {
-            System.out.println("Dead");
-        }
-        if (player2.healthPoints < player2.maxHealth * 0.25) {
-            System.out.println("HEALTH CRITICAL!");
-        }
-        System.out.println(" ");
-        System.out.println("INVENTORY");
-        for (String item : player2.inventory) {
-            if (item == null) {
-                System.out.println("-<Empty>");
-                continue;
-            }
-            System.out.println("-" + item);
-
-        }
-        System.out.println("=========================");
+        printCharacterSheet(player2, 2);
         System.out.println("========COMBAT===========");
-        int incomingDamage = player1.monsterDamage();
-        System.out.println("you take " + incomingDamage + " damage");
-        player1.healthPoints -= incomingDamage;
-
-        if (player1.healthPoints > 0) {
-            System.out.println("you are still standing");
-            System.out.println("your new health is now " + player1.healthPoints);
-            ;
-        } else {
-            System.out.println("you are dead");
-            System.out.println("GAME OVER");
-        }
-
-
+        player1.takeDamage(player1.monsterDamage());
+        player2.takeDamage(player2.monsterDamage());
+        player1.heal(player1.healAmount());
+        player2.heal(player2.healAmount());
+        player1.addGold(40);
+        player2.addGold(25);
+        player1.buyItem("Dragull's Blade", 42);
+        player2.buyItem("Healing Potion", 20);
+        player2.buyItem("Aegis of Immortality", 1000);
+        player1.addXp(100);
+        player2.addXp(1150);
     }
+
+
+    void printCharacterSheet(Hero hero, int playerNumber) {
+        System.out.println("Player: " + playerNumber);
+        System.out.println("=== CHARACTER SHEET ===");
+        System.out.println("Name: " + hero.name);
+        switch (hero.heroClass) {
+            case "Assassin":
+                System.out.println("Class: " + "A" + " " + "(Assassin)");
+                break;
+            case "Warrior":
+                System.out.println("Class: " + "W" + " " + "(Warrior)");
+                break;
+            default:
+                System.out.println("Hero Class not Available");
+
+        }
+        System.out.println("Level " + hero.level);
+        System.out.println("Health " + hero.healthPoints + "/" + hero.maxHealth);
+        System.out.println((int) hero.getHealthPercentage() + "% HP");
+        System.out.println("XP: " + hero.xp);
+        if (hero.xp > hero.level * 100) {
+            System.out.println("Ready to level up!");
+        }
+        System.out.println("Gold: " + hero.gold);
+
+        if (hero.isAlive()) {
+            System.out.println("Alive");
+        } else {
+            System.out.println("Dead");
+        }
+        if (hero.isHealthCritical()) {
+            System.out.println("HEALTH CRITICAL!");
+        }
+        System.out.println(" ");
+        hero.printInventory();
+        separationLine();
+    }
+
+    public static void separationLine(){
+        System.out.println("=========================");
+    }
+
 
 }
 
