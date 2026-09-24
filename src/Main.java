@@ -22,6 +22,7 @@ public class Main {
         player2.buyItem("Aegis of Immortality", 1000);
         player1.addXp(100);
         player2.addXp(1150);
+        player2.pvp(player1);
     }
 
 

@@ -172,4 +172,10 @@ public class Hero {
         }
         System.out.println(itemCount + "/5 inventory slots used");
     }
+
+    public void pvp(Hero enemyPlayer) {
+        int damage = attack();
+        System.out.println(name + " attacks " + enemyPlayer.name);
+        enemyPlayer.takeDamage(damage);
+    }
 }
